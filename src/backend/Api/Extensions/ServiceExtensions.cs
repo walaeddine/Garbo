@@ -169,8 +169,9 @@ public static class ServiceExtensions
         }
         else
         {
-            var logger = services.BuildServiceProvider().GetRequiredService<ILoggerManager>();
-            logger.LogWarn("EmailSettings configuration is missing or incomplete. SMTP sender not registered.");
+            // Log warning using a temporary scope or just a singleton if already registered.
+            // Since this is startup, we can just use Console if we don't want to build provider.
+            Console.WriteLine("Warning: EmailSettings configuration is missing or incomplete. SMTP sender not registered.");
         }
     }
 }

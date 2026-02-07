@@ -35,18 +35,21 @@ builder.Services.AddHealthChecks();
 builder.Services.ConfigureRateLimiting();
 
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.All
+});
+
 app.ConfigureSecurityHeaders();
 app.ConfigureExceptionHandler();
 if (app.Environment.IsProduction())
     app.UseHsts();
 
+if (app.Environment.IsProduction())
+    app.UseHsts();
+
 app.UseHttpsRedirection();
-app.UseCors("CorsPolicy");
-app.UseStaticFiles();
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.All
-});
 app.UseResponseCaching();
 app.UseAuthentication();
 app.UseAuthorization();

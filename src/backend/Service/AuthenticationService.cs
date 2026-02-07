@@ -136,7 +136,6 @@ internal sealed class AuthenticationService : IAuthenticationService
              // So if Now < ScheduledDeletionDate, we are in grace period.
              
              if (user.ScheduledDeletionDate.HasValue && DateTime.UtcNow < user.ScheduledDeletionDate.Value)
-             if (user.ScheduledDeletionDate.HasValue && DateTime.UtcNow < user.ScheduledDeletionDate.Value)
              {
                  throw new AccountPendingDeletionException(user.Email!); 
              }

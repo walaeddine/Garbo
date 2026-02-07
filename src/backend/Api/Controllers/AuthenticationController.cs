@@ -61,30 +61,15 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
         var userName = User.Identity!.Name;
         await service.AuthenticationService.Logout(userName!);
         
-        Response.Cookies.Delete("accessToken");
-        Response.Cookies.Delete("refreshToken");
+        Api.Utility.CookieHelper.DeleteTokens(Response.Cookies);
         
         return NoContent();
     }
 
     private void SetTokenCookie(string accessToken, string refreshToken)
     {
-        var refreshTokenOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = DateTime.UtcNow.AddDays(7),
-            SameSite = SameSiteMode.Lax, // Use Strict if same-domain
-            Path = "/api/authentication/refresh" // Limit scope of refresh token
-        };
-        Response.Cookies.Append("refreshToken", refreshToken, refreshTokenOptions);
-
-        var accessTokenOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = DateTime.UtcNow.AddMinutes(120), // Slightly longer for UX
-            SameSite = SameSiteMode.Lax
-        };
-        Response.Cookies.Append("accessToken", accessToken, accessTokenOptions);
+        Response.Cookies.Append("refreshToken", refreshToken, Api.Utility.CookieHelper.GetRefreshTokenCookieOptions());
+        Response.Cookies.Append("accessToken", accessToken, Api.Utility.CookieHelper.GetAccessTokenCookieOptions());
     }
 
     [HttpPost("change-password")]
