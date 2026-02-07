@@ -145,11 +145,16 @@ public static class ServiceExtensions
     {
         var emailSettings = configuration.GetSection("EmailSettings").Get<EmailConfiguration>();
 
-        if (emailSettings == null) throw new Exception("EmailSettings configuration is missing.");
+        if (emailSettings == null || string.IsNullOrEmpty(emailSettings.SmtpServer))
+        {
+            var logger = services.BuildServiceProvider().GetRequiredService<ILoggerManager>();
+            logger.LogWarn("EmailSettings configuration is missing or incomplete. FluentEmail services will not be fully registered.");
+            return;
+        }
 
         services
             .AddFluentEmail(emailSettings.From ?? "no-reply@garbo.com")
-            .AddSmtpSender(new System.Net.Mail.SmtpClient(emailSettings.SmtpServer ?? "localhost", emailSettings.Port)
+            .AddSmtpSender(new System.Net.Mail.SmtpClient(emailSettings.SmtpServer, emailSettings.Port)
             {
                 EnableSsl = true,
                 Credentials = new System.Net.NetworkCredential(emailSettings.Username, emailSettings.Password)
