@@ -9,6 +9,7 @@ namespace Api.Controllers;
 
 [Route("api/authentication")]
 [ApiController]
+[Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("AuthPolicy")]
 public class AuthenticationController(IServiceManager service) : ControllerBase
 {
     private IActionResult ProcessIdentityResult(Microsoft.AspNetCore.Identity.IdentityResult result, IActionResult? successResult = null)
@@ -27,6 +28,7 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
 
     [HttpPost]
     [Route("register")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
     {
         var result = await service.AuthenticationService.RegisterUser(userForRegistration);
@@ -35,6 +37,7 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
 
     [HttpPost("login")]
     [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
     {
         Console.WriteLine($"Authenticate hit for: {user.Email}");
@@ -66,25 +69,22 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
 
     private void SetTokenCookie(string accessToken, string refreshToken)
     {
-        var cookieOptions = new CookieOptions
+        var refreshTokenOptions = new CookieOptions
         {
             HttpOnly = true,
             Expires = DateTime.UtcNow.AddDays(7),
-            SameSite = SameSiteMode.Lax,
-            // Secure = true // Relax for localhost dev
+            SameSite = SameSiteMode.Lax, // Use Strict if same-domain
+            Path = "/api/authentication/refresh" // Limit scope of refresh token
         };
-        
-        Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+        Response.Cookies.Append("refreshToken", refreshToken, refreshTokenOptions);
 
-        var accessCookieOptions = new CookieOptions
+        var accessTokenOptions = new CookieOptions
         {
             HttpOnly = true,
-            Expires = DateTime.UtcNow.AddMinutes(30),
-            SameSite = SameSiteMode.Lax,
-            // Secure = true // Relax for localhost dev
+            Expires = DateTime.UtcNow.AddMinutes(120), // Slightly longer for UX
+            SameSite = SameSiteMode.Lax
         };
-
-        Response.Cookies.Append("accessToken", accessToken, accessCookieOptions);
+        Response.Cookies.Append("accessToken", accessToken, accessTokenOptions);
     }
 
     [HttpPost("change-password")]
@@ -100,6 +100,7 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
     }
 
     [HttpPost("forgot-password")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
     {
         await service.AuthenticationService.ForgotPassword(forgotPasswordDto.Email!);
@@ -107,6 +108,7 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
     }
 
     [HttpPost("reset-password")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
     {
         var result = await service.AuthenticationService.ResetPassword(resetPasswordDto.Email!, resetPasswordDto.Code!, resetPasswordDto.NewPassword!);
@@ -136,6 +138,7 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
     }
 
     [HttpPost("verify-email")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailDto verifyEmailDto)
     {
         var result = await service.AuthenticationService.VerifyEmail(verifyEmailDto.Email!, verifyEmailDto.Code!);
@@ -143,6 +146,7 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
     }
 
     [HttpPost("resend-verification-email")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> ResendVerificationEmail([FromBody] ResendVerificationDto resendVerificationDto)
     {
         var result = await service.AuthenticationService.ResendVerificationCode(resendVerificationDto.Email!);

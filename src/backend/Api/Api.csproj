@@ -4,21 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!-- Disable default content items to prevent wildcard errors for missing razor files -->
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
-    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Explicitly include necessary content since defaults are disabled -->
-    <Content Include="appsettings*.json" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="nlog.config" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions/" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../LoggerService/LoggerService.csproj" />
@@ -34,7 +21,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

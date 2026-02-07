@@ -36,7 +36,7 @@ internal sealed class TokenService : ITokenService
         user.RefreshToken = refreshToken;
         
         if(populateExp)
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
         
         await _userManager.UpdateAsync(user);
 
@@ -57,7 +57,7 @@ internal sealed class TokenService : ITokenService
         if (user.RefreshToken != tokenDto.RefreshToken)
         {
             // GRACE PERIOD CHECK: If token matches Previous and is not expired
-            if (user.PreviousRefreshToken == tokenDto.RefreshToken && user.PreviousRefreshTokenExpiryTime > DateTime.Now)
+            if (user.PreviousRefreshToken == tokenDto.RefreshToken && user.PreviousRefreshTokenExpiryTime > DateTime.UtcNow)
             {
                 // Return new Access Token but keep the CURRENT Refresh Token (which is already rotated)
                 var signingCredentialsGrace = GetSigningCredentials();
@@ -73,7 +73,7 @@ internal sealed class TokenService : ITokenService
         }
 
         // Validate expiry of current token
-        if (user.RefreshTokenExpiryTime <= DateTime.Now)
+        if (user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new RefreshTokenBadRequestException();
 
         var signingCredentials = GetSigningCredentials();
@@ -126,7 +126,7 @@ internal sealed class TokenService : ITokenService
             issuer: _jwtConfig.ValidIssuer,
             audience: _jwtConfig.ValidAudience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(expires),
+            expires: DateTime.UtcNow.AddMinutes(expires),
             signingCredentials: signingCredentials);
 
         return tokenOptions;

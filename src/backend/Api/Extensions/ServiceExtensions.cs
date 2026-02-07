@@ -113,17 +113,29 @@ public static class ServiceExtensions
     {
         services.AddRateLimiter(options =>
         {
-            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
-                RateLimitPartition.GetFixedWindowLimiter("GlobalLimiter",
-                    partition => new FixedWindowRateLimiterOptions
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+            options.AddPolicy("AuthPolicy", context =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? context.Request.Headers.Host.ToString(),
+                    factory: _ => new FixedWindowRateLimiterOptions
                     {
                         AutoReplenishment = true,
-                        PermitLimit = 10,
+                        PermitLimit = 5,
+                        QueueLimit = 0,
+                        Window = TimeSpan.FromMinutes(1)
+                    }));
+
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? context.Request.Headers.Host.ToString(),
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        AutoReplenishment = true,
+                        PermitLimit = 30,
                         QueueLimit = 0,
                         Window = TimeSpan.FromSeconds(30)
                     }));
-        
-            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
         });
     }
 
@@ -145,19 +157,20 @@ public static class ServiceExtensions
     {
         var emailSettings = configuration.GetSection("EmailSettings").Get<EmailConfiguration>();
 
-        if (emailSettings == null || string.IsNullOrEmpty(emailSettings.SmtpServer))
-        {
-            var logger = services.BuildServiceProvider().GetRequiredService<ILoggerManager>();
-            logger.LogWarn("EmailSettings configuration is missing or incomplete. FluentEmail services will not be fully registered.");
-            return;
-        }
+        var fluentEmail = services.AddFluentEmail(emailSettings?.From ?? "no-reply@garbo.com");
 
-        services
-            .AddFluentEmail(emailSettings.From ?? "no-reply@garbo.com")
-            .AddSmtpSender(new System.Net.Mail.SmtpClient(emailSettings.SmtpServer, emailSettings.Port)
+        if (emailSettings != null && !string.IsNullOrEmpty(emailSettings.SmtpServer))
+        {
+            fluentEmail.AddSmtpSender(new System.Net.Mail.SmtpClient(emailSettings.SmtpServer, emailSettings.Port)
             {
                 EnableSsl = true,
                 Credentials = new System.Net.NetworkCredential(emailSettings.Username, emailSettings.Password)
             });
+        }
+        else
+        {
+            var logger = services.BuildServiceProvider().GetRequiredService<ILoggerManager>();
+            logger.LogWarn("EmailSettings configuration is missing or incomplete. SMTP sender not registered.");
+        }
     }
 }

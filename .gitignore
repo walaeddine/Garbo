@@ -14,20 +14,20 @@
 [Bb]in/
 [Oo]bj/
 # Explicitly ignore Windows-style backslash folders (critical for Linux builds)
-*[\\]bin/
-*[\\]obj/
-*[\\]bin[\\]*
-*[\\]obj[\\]*
-**\bin\**
-**\obj\**
-bin\
-obj\
-bin\\Debug
-bin\\Release
-obj\\Debug
-obj\\Release
-*\\bin\\*
-*\\obj\\*
+"*[\\]bin/"
+"*[\\]obj/"
+"*[\\]bin[\\]*"
+"*[\\]obj[\\]*"
+"**\\bin\\**"
+"**\\obj\\**"
+"bin\\"
+"obj\\"
+"bin\\Debug"
+"bin\\Release"
+"obj\\Debug"
+"obj\\Release"
+"*\\bin\\*"
+"*\\obj\\*"
 "bin\\Debug"
 "obj\\Debug"
 

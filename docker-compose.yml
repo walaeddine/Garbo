@@ -27,7 +27,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - AllowedHosts=${ALLOWED_HOSTS}
-      - ConnectionStrings__sqlConnection=${CONNECTION_STRING}
+      - ConnectionStrings__sqlConnection=${ConnectionStrings__sqlConnection}
       - JwtSettings__validIssuer=${JWT_ISSUER}
       - JwtSettings__validAudience=${JWT_AUDIENCE}
       - JwtSettings__expires=${JWT_EXPIRES}

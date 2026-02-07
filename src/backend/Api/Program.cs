@@ -1,6 +1,7 @@
 using Api.ActionFilters;
 using Api.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Microsoft.AspNetCore.RateLimiting;
 using Api;
@@ -22,8 +23,12 @@ builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
-    config.ReturnHttpNotAcceptable = true;
 }).AddXmlDataContractSerializerFormatters();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddHealthChecks();
 
@@ -56,3 +61,7 @@ app.MapHealthChecks("/health");
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.Run();
+
+public partial class Program { }
+
+

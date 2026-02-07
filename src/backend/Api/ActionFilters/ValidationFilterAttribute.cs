@@ -19,14 +19,14 @@ public class ValidationFilterAttribute : IActionFilter
             // Check if the argument is null using the parameter name
             if (context.ActionArguments.TryGetValue(dtoParam.Name, out var value) && value is null)
             {
-                 context.Result = new BadRequestObjectResult($"Object is null. Controller: {controller}, Action: {action}");
+                 context.Result = new UnprocessableEntityObjectResult($"Object is null. Controller: {controller}, Action: {action}");
                  return;
             }
             // Case where the argument might not even be in ActionArguments (if null and not bound?)
             // Typically generic [FromBody] with null body ends up as null value in arguments.
             if (!context.ActionArguments.ContainsKey(dtoParam.Name))
             {
-                 context.Result = new BadRequestObjectResult($"Object is null. Controller: {controller}, Action: {action}");
+                 context.Result = new UnprocessableEntityObjectResult($"Object is null. Controller: {controller}, Action: {action}");
                  return;
             }
         }
