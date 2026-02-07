@@ -16,7 +16,10 @@ public class AuthFlowTests : IClassFixture<WebApplicationFactory<Program>>
     {
         _factory = factory.WithWebHostBuilder(builder =>
         {
-            builder.UseSetting("ConnectionStrings:sqlConnection", "Host=localhost;Database=GarboDb;Username=postgres;Password=R2mCUCWjO6QE5wl6CnSD5YlCmOvEJTu7");
+            var dbConnectionString = Environment.GetEnvironmentVariable("ASPNETCORE_TEST_CONNECTION_STRING") 
+                                    ?? "Host=localhost;Database=GarboDb_Test;Username=postgres;Password=postgres";
+            
+            builder.UseSetting("ConnectionStrings:sqlConnection", dbConnectionString);
             builder.UseSetting("JwtSettings:Secret", "HighlySecretTokenForTestingGarboApplicationLongerSecretToEnsureLengthRequirement");
             builder.UseSetting("JwtSettings:ValidIssuer", "GarboApi");
             builder.UseSetting("JwtSettings:ValidAudience", "GarboClient");

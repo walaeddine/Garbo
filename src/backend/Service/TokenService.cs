@@ -94,6 +94,18 @@ internal sealed class TokenService : ITokenService
         return new TokenDto(newAccessToken, newRefreshToken);
     }
 
+    public async Task RevokeAllTokens(string userName)
+    {
+        var user = await _userManager.FindByNameAsync(userName) ?? throw new UserNotFoundException(userName);
+
+        user.RefreshToken = null;
+        user.RefreshTokenExpiryTime = default;
+        user.PreviousRefreshToken = null;
+        user.PreviousRefreshTokenExpiryTime = null;
+
+        await _userManager.UpdateAsync(user);
+    }
+
     private SigningCredentials GetSigningCredentials()
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Secret!));

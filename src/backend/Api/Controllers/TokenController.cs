@@ -25,13 +25,8 @@ public class TokenController(IServiceManager service, Api.Utility.ICookieHelper 
 
         var tokenDtoToReturn = await service.TokenService.RefreshToken(tokenDtoToRefesh);
         
-        SetTokenCookie(tokenDtoToReturn.AccessToken, tokenDtoToReturn.RefreshToken);
+        cookieHelper.SetTokenCookies(Response.Cookies, tokenDtoToReturn.AccessToken, tokenDtoToReturn.RefreshToken);
 
-        return Ok(new { Message = "Token refreshed successfully" });
-    }
-
-    private void SetTokenCookie(string accessToken, string refreshToken)
-    {
-        cookieHelper.SetTokenCookies(Response.Cookies, accessToken, refreshToken);
+        return NoContent();
     }
 }

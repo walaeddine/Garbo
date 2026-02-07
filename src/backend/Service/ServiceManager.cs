@@ -23,9 +23,9 @@ public sealed class ServiceManager : IServiceManager
         _brandService = new Lazy<IBrandService>(() => new BrandService(repositoryManager, logger, _imageService.Value));
         _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager));
         _emailService = new Lazy<IEmailService>(() => new EmailService(fluentEmail, logger));
-        _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, userManager, configuration, _emailService.Value));
-        _userService = new Lazy<IUserService>(() => new UserService(logger, userManager, _emailService.Value));
         _tokenService = new Lazy<ITokenService>(() => new TokenService(configuration, userManager));
+        _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, userManager, _emailService.Value, _tokenService.Value));
+        _userService = new Lazy<IUserService>(() => new UserService(logger, userManager, _emailService.Value));
     }
 
     public IBrandService BrandService => _brandService.Value;

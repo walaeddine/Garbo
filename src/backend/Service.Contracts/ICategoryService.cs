@@ -10,4 +10,5 @@ public interface ICategoryService
     Task<CategoryDto> CreateCategoryAsync(CategoryForCreationDto category);
     Task UpdateCategoryAsync(Guid id, CategoryForUpdateDto categoryForUpdate, bool trackChanges);
     Task DeleteCategoryAsync(Guid id, bool trackChanges);
+    Task<int> GetCategoriesCount();
 }

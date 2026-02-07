@@ -178,7 +178,7 @@ export function BrandDialog({ open, onOpenChange, brand, onSuccess }: BrandDialo
                                                     {field.value ? (
                                                         <>
                                                             <img
-                                                                src={`http://localhost:5000${field.value}`}
+                                                                src={field.value}
                                                                 alt="Preview"
                                                                 className="h-full w-full object-contain"
                                                             />

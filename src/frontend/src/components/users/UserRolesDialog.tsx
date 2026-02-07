@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import { useUpdateUserRoles } from "@/hooks/useUserMutations"
+import { useUpdateUserRoles } from "@/hooks/users/useUserMutations"
 import type { User } from "@/types/auth"
 
 interface UserRolesDialogProps {

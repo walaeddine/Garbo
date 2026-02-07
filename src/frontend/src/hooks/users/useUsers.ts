@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import apiClient from "@/lib/apiClient"
 import type { User } from "@/types/auth"
+import { extractPagination } from "@/lib/api-utils"
 
 interface UserParameters {
     pageNumber?: number
@@ -12,12 +13,11 @@ export function useUsers(params: UserParameters = {}) {
     return useQuery({
         queryKey: ["users", params],
         queryFn: async () => {
-            const response = await apiClient.get<User[]>("/authentication/users", {
+            const response = await apiClient.get<User[]>("/users", {
                 params,
             })
 
-            const pagination = response.headers["x-pagination"]
-            const metaData = pagination ? JSON.parse(pagination) : null
+            const metaData = extractPagination(response)
 
             return {
                 users: response.data,

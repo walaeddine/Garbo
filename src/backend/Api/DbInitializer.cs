@@ -29,6 +29,12 @@ public static class DbInitializer
         var adminEmail = adminSettings.Email;
         var adminPassword = adminSettings.Password;
 
+        if (string.IsNullOrWhiteSpace(adminEmail) || string.IsNullOrWhiteSpace(adminPassword))
+        {
+            logger.LogWarn("AdminSettings Email or Password is missing. Skipping admin user seeding.");
+            return;
+        }
+
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
         if (adminUser == null)

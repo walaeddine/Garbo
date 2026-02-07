@@ -10,4 +10,5 @@ public interface ICategoryRepository
     Task<Category?> GetCategoryBySlugAsync(string slug, bool trackChanges);
     void CreateCategory(Category category);
     void DeleteCategory(Category category);
+    Task<int> GetCategoriesCount();
 }

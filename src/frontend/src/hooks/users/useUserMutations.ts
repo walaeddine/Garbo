@@ -7,7 +7,7 @@ export function useUpdateUserRoles() {
 
     return useMutation({
         mutationFn: async ({ userId, roles }: { userId: string; roles: string[] }) => {
-            await apiClient.post(`/authentication/${userId}/roles`, roles)
+            await apiClient.post(`/users/${userId}/roles`, roles)
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["users"] })
@@ -24,7 +24,7 @@ export function useToggleUserLockout() {
 
     return useMutation({
         mutationFn: async ({ userId, locked }: { userId: string; locked: boolean }) => {
-            await apiClient.post(`/authentication/${userId}/lockout`, { locked })
+            await apiClient.post(`/users/${userId}/lockout`, { locked })
         },
         onSuccess: (_, variables) => {
             queryClient.invalidateQueries({ queryKey: ["users"] })

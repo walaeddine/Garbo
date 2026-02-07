@@ -30,6 +30,7 @@ public class CategoryRepository(RepositoryContext repositoryContext) : Repositor
         .SingleOrDefaultAsync();
 
     public void CreateCategory(Category category) => Create(category);
-
     public void DeleteCategory(Category category) => Delete(category);
+
+    public async Task<int> GetCategoriesCount() => await FindAll(trackChanges: false).CountAsync();
 }
