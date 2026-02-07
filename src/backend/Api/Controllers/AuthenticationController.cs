@@ -10,7 +10,7 @@ namespace Api.Controllers;
 [Route("api/authentication")]
 [ApiController]
 [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("AuthPolicy")]
-public class AuthenticationController(IServiceManager service) : ControllerBase
+public class AuthenticationController(IServiceManager service, Api.Utility.ICookieHelper cookieHelper) : ControllerBase
 {
     private IActionResult ProcessIdentityResult(Microsoft.AspNetCore.Identity.IdentityResult result, IActionResult? successResult = null)
     {
@@ -60,14 +60,14 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
         var userName = User.Identity!.Name;
         await service.AuthenticationService.Logout(userName!);
         
-        Api.Utility.CookieHelper.DeleteTokens(Response.Cookies);
+        cookieHelper.DeleteTokens(Response.Cookies);
         
         return NoContent();
     }
 
     private void SetTokenCookie(string accessToken, string refreshToken)
     {
-        Api.Utility.CookieHelper.SetTokenCookies(Response.Cookies, accessToken, refreshToken);
+        cookieHelper.SetTokenCookies(Response.Cookies, accessToken, refreshToken);
     }
 
     [HttpPost("change-password")]

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Microsoft.AspNetCore.RateLimiting;
+using Api.Utility;
 using Api;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.ConfigureFluentEmail(builder.Configuration);
 builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.AddScoped<ICookieHelper, CookieHelper>();
 builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;

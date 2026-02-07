@@ -7,7 +7,7 @@ namespace Api.Controllers;
 [Route("api/token")]
 [ApiController]
 [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("AuthPolicy")]
-public class TokenController(IServiceManager service) : ControllerBase
+public class TokenController(IServiceManager service, Api.Utility.ICookieHelper cookieHelper) : ControllerBase
 {
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
@@ -32,7 +32,6 @@ public class TokenController(IServiceManager service) : ControllerBase
 
     private void SetTokenCookie(string accessToken, string refreshToken)
     {
-        Response.Cookies.Append("refreshToken", refreshToken, Api.Utility.CookieHelper.GetRefreshTokenCookieOptions());
-        Response.Cookies.Append("accessToken", accessToken, Api.Utility.CookieHelper.GetAccessTokenCookieOptions());
+        cookieHelper.SetTokenCookies(Response.Cookies, accessToken, refreshToken);
     }
 }

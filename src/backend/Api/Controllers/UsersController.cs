@@ -7,7 +7,7 @@ namespace Api.Controllers;
 
 [Route("api/users")]
 [ApiController]
-public class UsersController(IServiceManager service) : ControllerBase
+public class UsersController(IServiceManager service, Api.Utility.ICookieHelper cookieHelper) : ControllerBase
 {
     private IActionResult ProcessIdentityResult(Microsoft.AspNetCore.Identity.IdentityResult result, IActionResult? successResult = null)
     {
@@ -104,7 +104,7 @@ public class UsersController(IServiceManager service) : ControllerBase
              // Refresh Session with NEW Username/Email
              var user = await service.UserService.GetUserEntity(userId);
              var tokenDto = await service.AuthenticationService.CreateToken(user, populateExp: true);
-             Api.Utility.CookieHelper.SetTokenCookies(Response.Cookies, tokenDto.AccessToken, tokenDto.RefreshToken);
+             cookieHelper.SetTokenCookies(Response.Cookies, tokenDto.AccessToken, tokenDto.RefreshToken);
              
              return NoContent();
         }
