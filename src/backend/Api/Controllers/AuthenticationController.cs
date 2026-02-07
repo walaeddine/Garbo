@@ -40,7 +40,6 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
     {
-        Console.WriteLine($"Authenticate hit for: {user.Email}");
         try 
         {
             var authenticatedUser = await service.AuthenticationService.ValidateUser(user);
@@ -68,8 +67,7 @@ public class AuthenticationController(IServiceManager service) : ControllerBase
 
     private void SetTokenCookie(string accessToken, string refreshToken)
     {
-        Response.Cookies.Append("refreshToken", refreshToken, Api.Utility.CookieHelper.GetRefreshTokenCookieOptions());
-        Response.Cookies.Append("accessToken", accessToken, Api.Utility.CookieHelper.GetAccessTokenCookieOptions());
+        Api.Utility.CookieHelper.SetTokenCookies(Response.Cookies, accessToken, refreshToken);
     }
 
     [HttpPost("change-password")]

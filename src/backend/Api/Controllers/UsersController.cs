@@ -104,7 +104,7 @@ public class UsersController(IServiceManager service) : ControllerBase
              // Refresh Session with NEW Username/Email
              var user = await service.UserService.GetUserEntity(userId);
              var tokenDto = await service.AuthenticationService.CreateToken(user, populateExp: true);
-             SetTokenCookie(tokenDto.AccessToken, tokenDto.RefreshToken);
+             Api.Utility.CookieHelper.SetTokenCookies(Response.Cookies, tokenDto.AccessToken, tokenDto.RefreshToken);
              
              return NoContent();
         }
@@ -112,28 +112,7 @@ public class UsersController(IServiceManager service) : ControllerBase
         return ProcessIdentityResult(result);
     }
 
-    private void SetTokenCookie(string accessToken, string refreshToken)
-    {
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = DateTime.UtcNow.AddDays(7),
-            SameSite = SameSiteMode.None,
-            Secure = true
-        };
-        
-        Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 
-        var accessCookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = DateTime.UtcNow.AddMinutes(30),
-            SameSite = SameSiteMode.None,
-            Secure = true
-        };
-
-        Response.Cookies.Append("accessToken", accessToken, accessCookieOptions);
-    }
 
     [HttpDelete]
     [Microsoft.AspNetCore.Authorization.Authorize]

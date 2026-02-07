@@ -43,13 +43,13 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 
 app.ConfigureSecurityHeaders();
 app.ConfigureExceptionHandler();
-if (app.Environment.IsProduction())
-    app.UseHsts();
 
 if (app.Environment.IsProduction())
     app.UseHsts();
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseCors("CorsPolicy");
 app.UseResponseCaching();
 app.UseAuthentication();
 app.UseAuthorization();
