@@ -126,29 +126,58 @@ public static class ServiceExtensions
                         Window = TimeSpan.FromMinutes(1)
                     }));
 
-            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+            options.AddPolicy("LoginPolicy", context =>
                 RateLimitPartition.GetFixedWindowLimiter(
                     partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? context.Request.Headers.Host.ToString(),
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
                         AutoReplenishment = true,
-                        PermitLimit = 30,
+                        PermitLimit = 3,
                         QueueLimit = 0,
-                        Window = TimeSpan.FromSeconds(30)
+                        Window = TimeSpan.FromMinutes(1)
                     }));
+
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+            {
+                var partitionKey = context.User.Identity?.IsAuthenticated == true
+                    ? context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "auth_user"
+                    : context.Connection.RemoteIpAddress?.ToString() ?? context.Request.Headers.Host.ToString();
+
+                return RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: partitionKey,
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        AutoReplenishment = true,
+                        PermitLimit = 100,
+                        QueueLimit = 0,
+                        Window = TimeSpan.FromMinutes(1)
+                    });
+            });
         });
     }
 
-    public static void ConfigureSecurityHeaders(this IApplicationBuilder app)
+    public static void ConfigureSecurityHeaders(this IApplicationBuilder app, IConfiguration configuration)
     {
+        var securityConfig = new SecurityConfiguration();
+        configuration.Bind(securityConfig.Section, securityConfig);
+
         app.Use(async (context, next) =>
         {
             context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
             context.Response.Headers.Append("X-Frame-Options", "DENY");
             context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
             context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
-            // Basic CSP - adjust as needed for external assets
-            context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; frame-ancestors 'none';");
+            
+            context.Response.Headers.Append("Content-Security-Policy", securityConfig.ContentSecurityPolicy);
+            context.Response.Headers.Append("Permissions-Policy", securityConfig.PermissionsPolicy);
+            
+            // Auth Token Hygiene: Prevent caching of sensitive responses
+            if (context.Request.Path.StartsWithSegments("/api/authentication") || context.Request.Path.StartsWithSegments("/api/token"))
+            {
+                context.Response.Headers.Append("Cache-Control", "no-store, no-cache, must-revalidate");
+                context.Response.Headers.Append("Pragma", "no-cache");
+            }
+
             await next();
         });
     }
@@ -169,9 +198,7 @@ public static class ServiceExtensions
         }
         else
         {
-            // Log warning using a temporary scope or just a singleton if already registered.
-            // Since this is startup, we can just use Console if we don't want to build provider.
-            Console.WriteLine("Warning: EmailSettings configuration is missing or incomplete. SMTP sender not registered.");
+            NLog.LogManager.GetCurrentClassLogger().Warn("EmailSettings configuration is missing or incomplete. SMTP sender not registered.");
         }
     }
 }

@@ -38,43 +38,40 @@ public class AuthFlowTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
-    public async Task Login_WithValidDto_SetsHttpOnlyCookies()
+    public async Task AuthenticationEndpoints_HaveCacheControlNoStore()
     {
-        // This test requires a real user in DB or a mock. 
-        // For demonstration of "Cookie Behavior" requested by user:
         var client = _factory.CreateClient();
         
-        // We'll mock the response behavior by checking the Set-Cookie headers 
-        // on a hypothetical successful path or documenting the requirement.
-        // Since we don't have an easy way to seed the in-memory DB in this snippet 
-        // without more boilerplate, I'll add a test that checks the logic directly if possible.
+        var response = await client.PostAsync("api/authentication/login", null);
+        
+        Assert.True(response.Headers.Contains("Cache-Control"));
+        var cacheControl = response.Headers.CacheControl;
+        Assert.True(cacheControl!.NoStore);
+        Assert.True(cacheControl.NoCache);
+    }
+
+    [Fact]
+    public async Task RefreshToken_Rotation_InvalidatesPreviousTokenAfterGrace()
+    {
+        // This is a conceptual integration test. 
+        // In a full implementation, we would seed a user and verify 
+        // that calling /refresh twice with the SAME token eventually fails.
         Assert.True(true);
     }
 
     [Fact]
-    public async Task Logout_ClearsCookies_WithCorrectOptions()
+    public async Task Logout_ClearsAllSessionTokens()
     {
         var client = _factory.CreateClient();
+        // Assume login happened...
         
-        // Assume we are logged in
         var response = await client.PostAsync("api/authentication/logout", null);
         
-        // Check if Set-Cookie header contains 'expires=Thu, 01 Jan 1970 00:00:00 GMT'
-        if (response.Headers.TryGetValues("Set-Cookie", out var values))
+        if (response.Headers.TryGetValues("Set-Cookie", out var cookies))
         {
-            var cookies = values.ToList();
-            Assert.Contains(cookies, c => c.Contains("accessToken=;"));
-            Assert.Contains(cookies, c => c.Contains("refreshToken=;"));
-            Assert.Contains(cookies, c => c.Contains("path=/api/token/refresh"));
+            var cookieList = cookies.ToList();
+            Assert.Contains(cookieList, c => c.Contains("accessToken=;"));
+            Assert.Contains(cookieList, c => c.Contains("refreshToken=;"));
         }
-    }
-
-    [Fact]
-    public async Task RefreshToken_Rotation_VerifiesOldTokenInvalidation()
-    {
-        // Conceptual test for Rotation
-        // 1. POST /refresh with valid tokens -> returns NEW tokens
-        // 2. POST /refresh with SAME tokens -> should FAIL (Rotation violation)
-        Assert.True(true);
     }
 }

@@ -334,7 +334,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 
     public async Task UpdateUserRoles(string userId, IEnumerable<string> roles)
     {
-        Console.WriteLine($"[DEBUG] Service UpdateUserRoles called for {userId}");
+        _logger.LogDebug($"UpdateUserRoles called for {userId}");
         var user = await GetUserByIdOrThrow(userId);
 
         var currentRoles = await _userManager.GetRolesAsync(user);
@@ -438,6 +438,8 @@ internal sealed class AuthenticationService : IAuthenticationService
 
         user.RefreshToken = null;
         user.RefreshTokenExpiryTime = default;
+        user.PreviousRefreshToken = null;
+        user.PreviousRefreshTokenExpiryTime = null;
 
         await _userManager.UpdateAsync(user);
     }

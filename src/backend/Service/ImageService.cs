@@ -8,8 +8,7 @@ public sealed class ImageService(IWebHostEnvironment webHostEnvironment) : IImag
 {
     public async Task<string> UploadImageAsync(IFormFile file, string folderName)
     {
-        if (file == null || file.Length == 0)
-            throw new ArgumentException("Invalid file");
+        Utility.FileValidator.ValidateImage(file);
 
         var uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "uploads", folderName);
         if (!Directory.Exists(uploadsFolder))

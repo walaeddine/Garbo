@@ -32,18 +32,18 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 
-builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<Repository.RepositoryContext>("Database")
+    .AddCheck<Api.HealthChecks.SmtpHealthCheck>("SMTP");
 
 builder.Services.ConfigureRateLimiting();
 
 var app = builder.Build();
 
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.All
-});
+app.UseMiddleware<Api.Middleware.CorrelationIdMiddleware>();
+app.UseMiddleware<Api.Middleware.RequestLoggingMiddleware>();
 
-app.ConfigureSecurityHeaders();
+app.ConfigureSecurityHeaders(builder.Configuration);
 app.ConfigureExceptionHandler();
 
 if (app.Environment.IsProduction())

@@ -37,6 +37,7 @@ public class AuthenticationController(IServiceManager service, Api.Utility.ICook
 
     [HttpPost("login")]
     [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+    [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("LoginPolicy")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
     {
@@ -83,6 +84,7 @@ public class AuthenticationController(IServiceManager service, Api.Utility.ICook
     }
 
     [HttpPost("forgot-password")]
+    [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("LoginPolicy")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
     {
@@ -91,6 +93,7 @@ public class AuthenticationController(IServiceManager service, Api.Utility.ICook
     }
 
     [HttpPost("reset-password")]
+    [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("LoginPolicy")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
     {
@@ -121,6 +124,7 @@ public class AuthenticationController(IServiceManager service, Api.Utility.ICook
     }
 
     [HttpPost("verify-email")]
+    [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("LoginPolicy")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailDto verifyEmailDto)
     {
@@ -129,6 +133,7 @@ public class AuthenticationController(IServiceManager service, Api.Utility.ICook
     }
 
     [HttpPost("resend-verification-email")]
+    [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("LoginPolicy")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> ResendVerificationEmail([FromBody] ResendVerificationDto resendVerificationDto)
     {
