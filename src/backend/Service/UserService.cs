@@ -138,6 +138,12 @@ internal sealed class UserService : IUserService
             $"Account deletion email sent to {user.Email}");
     }
 
+    public async Task HardDeleteAccount(string userId)
+    {
+        var user = await GetUserByIdOrThrow(userId);
+        await _userManager.DeleteAsync(user);
+    }
+
     public async Task RequestAccountReactivation(string email)
     {
         // Must use IgnoreQueryFilters to find the user!

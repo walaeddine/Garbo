@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useChangePassword } from "@/hooks/useChangePassword"
+import { useChangePassword } from "@/hooks/users/useChangePassword"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"

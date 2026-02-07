@@ -17,14 +17,18 @@ public class SmtpHealthCheck(IConfiguration configuration) : IHealthCheck
 
         try
         {
-            using var client = new SmtpClient(emailSettings.SmtpServer, emailSettings.Port);
-            client.Timeout = 2000;
-            // A simple way to check connectivity without sending a mail is often limited, 
-            // but we can try to connect. 
-            // Note: SmtpClient.Send is the main way to trigger connection. 
-            // For a pure connectivity check, a TCP client might be better.
+            using var tcpClient = new System.Net.Sockets.TcpClient();
+            var connectTask = tcpClient.ConnectAsync(emailSettings.SmtpServer, emailSettings.Port);
             
-            return HealthCheckResult.Healthy("SMTP configuration present.");
+            var timeoutTask = Task.Delay(2000, cancellationToken);
+            var completedTask = await Task.WhenAny(connectTask, timeoutTask);
+
+            if (completedTask == timeoutTask || !tcpClient.Connected)
+            {
+                return HealthCheckResult.Unhealthy($"SMTP server {emailSettings.SmtpServer}:{emailSettings.Port} is unreachable.");
+            }
+
+            return HealthCheckResult.Healthy($"SMTP server {emailSettings.SmtpServer}:{emailSettings.Port} is reachable.");
         }
         catch (Exception ex)
         {

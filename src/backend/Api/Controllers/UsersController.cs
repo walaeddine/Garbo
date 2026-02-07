@@ -92,6 +92,7 @@ public class UsersController(IServiceManager service, Api.Utility.ICookieHelper 
 
     [HttpPost("confirm-email-change")]
     [Microsoft.AspNetCore.Authorization.Authorize]
+    [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("LoginPolicy")]
     public async Task<IActionResult> ConfirmEmailChange([FromBody] ConfirmEmailChangeDto confirmEmailChangeDto)
     {
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
@@ -123,6 +124,17 @@ public class UsersController(IServiceManager service, Api.Utility.ICookieHelper 
 
         await service.UserService.DeleteAccount(userId);
         
+        return NoContent();
+    }
+
+    [HttpDelete("{userId}/hard")]
+    [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> HardDeleteUser(string userId)
+    {
+        var user = await service.UserService.GetUserEntity(userId);
+        // We'll need a hard delete method in IUserService, but for now we can call userManager.DeleteAsync directly in Service if we want to follow the pattern.
+        // Actually I should add HardDeleteAccount to IUserService.
+        await service.UserService.HardDeleteAccount(userId);
         return NoContent();
     }
 

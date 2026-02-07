@@ -55,4 +55,12 @@ public class CategoriesController(IServiceManager service) : ControllerBase
         await service.CategoryService.DeleteCategoryAsync(id, trackChanges: false);
         return NoContent();
     }
+
+    [HttpGet("count")]
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> GetCategoriesCount()
+    {
+        var count = await service.CategoryService.GetCategoriesCount();
+        return Ok(count);
+    }
 }

@@ -45,7 +45,7 @@ public class AuthenticationController(IServiceManager service, Api.Utility.ICook
         {
             var authenticatedUser = await service.AuthenticationService.ValidateUser(user);
             var tokenDto = await service.TokenService.CreateToken(authenticatedUser, populateExp: true);
-            SetTokenCookie(tokenDto.AccessToken, tokenDto.RefreshToken);
+            cookieHelper.SetTokenCookies(Response.Cookies, tokenDto.AccessToken, tokenDto.RefreshToken);
             return Ok(new { Message = "Login successful" }); 
         }
         catch (Entities.Exceptions.AccountPendingDeletionException ex)
@@ -55,21 +55,6 @@ public class AuthenticationController(IServiceManager service, Api.Utility.ICook
     }
 
     [HttpPost("logout")]
-    [Microsoft.AspNetCore.Authorization.Authorize]
-    public async Task<IActionResult> Logout()
-    {
-        var userName = User.Identity!.Name;
-        await service.AuthenticationService.Logout(userName!);
-        
-        cookieHelper.DeleteTokens(Response.Cookies);
-        
-        return NoContent();
-    }
-
-    private void SetTokenCookie(string accessToken, string refreshToken)
-    {
-        cookieHelper.SetTokenCookies(Response.Cookies, accessToken, refreshToken);
-    }
 
     [HttpPost("change-password")]
     [Microsoft.AspNetCore.Authorization.Authorize]
@@ -114,6 +99,7 @@ public class AuthenticationController(IServiceManager service, Api.Utility.ICook
 
     [HttpPost("complete-password-update")]
     [Microsoft.AspNetCore.Authorization.Authorize]
+    [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("LoginPolicy")]
     public async Task<IActionResult> CompletePasswordUpdate([FromBody] CompletePasswordUpdateDto completePasswordUpdateDto)
     {
         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;

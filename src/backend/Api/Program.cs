@@ -39,6 +39,10 @@ builder.Services.AddHealthChecks()
 builder.Services.ConfigureRateLimiting();
 
 var app = builder.Build();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.All
+});
 
 app.UseMiddleware<Api.Middleware.CorrelationIdMiddleware>();
 app.UseMiddleware<Api.Middleware.RequestLoggingMiddleware>();

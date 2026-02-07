@@ -62,6 +62,8 @@ internal sealed class CategoryService(IRepositoryManager repository) : ICategory
         await repository.SaveAsync();
     }
 
+    public async Task<int> GetCategoriesCount() => await repository.Category.GetCategoriesCount();
+
     private async Task<Category> GetCategoryAndCheckIfItExists(Guid id, bool trackChanges)
     {
         var category = await repository.Category.GetCategoryAsync(id, trackChanges);

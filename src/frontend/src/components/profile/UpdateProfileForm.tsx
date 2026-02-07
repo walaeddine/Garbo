@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "@/contexts/AuthContext"
-import { useUpdateProfile } from "@/hooks/useUpdateProfile"
+import { useUpdateProfile } from "@/hooks/users/useUpdateProfile"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"

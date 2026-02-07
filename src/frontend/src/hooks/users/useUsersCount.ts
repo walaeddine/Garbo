@@ -5,7 +5,7 @@ export function useUsersCount() {
     return useQuery({
         queryKey: ["users", "count"],
         queryFn: async () => {
-            const response = await apiClient.get<number>("/authentication/count")
+            const response = await apiClient.get<number>("/users/count")
             return response.data
         },
     })
