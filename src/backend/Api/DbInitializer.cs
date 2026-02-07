@@ -8,12 +8,8 @@ namespace Api;
 
 public static class DbInitializer
 {
-    public static bool SkipMigration { get; set; } = false;
-
     public static async Task Initialize(IServiceProvider serviceProvider)
     {
-        if (SkipMigration) return;
-
         var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var configuration = serviceProvider.GetRequiredService<IConfiguration>();
