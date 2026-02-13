@@ -1,5 +1,5 @@
 # Stage 1: Build React Frontend
-FROM node:20 AS client-build
+FROM node:20-alpine AS client-build
 WORKDIR /app
 COPY src/frontend/package*.json ./
 RUN npm install
@@ -10,36 +10,36 @@ RUN npm run build
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# Copy csproj files first for caching
-COPY src/backend/Api/Api.csproj src/backend/Api/
-COPY src/backend/Contracts/Contracts.csproj src/backend/Contracts/
-COPY src/backend/Entities/Entities.csproj src/backend/Entities/
-COPY src/backend/LoggerService/LoggerService.csproj src/backend/LoggerService/
-COPY src/backend/Repository/Repository.csproj src/backend/Repository/
-COPY src/backend/Service/Service.csproj src/backend/Service/
-COPY src/backend/Service.Contracts/Service.Contracts.csproj src/backend/Service.Contracts/
-COPY src/backend/Shared/Shared.csproj src/backend/Shared/
+# Copy all backend source
+COPY src/backend/ .
 
-RUN dotnet restore "src/backend/Api/Api.csproj"
+# Restore and Build
+RUN dotnet restore "Api/Api.csproj"
 
-# Copy everything else and build
-COPY src/backend/ src/backend/
-WORKDIR /src/src/backend/Api
-RUN dotnet build "Api.csproj" -c Release -o /app/build
+# Workaround for .NET 10 Web SDK globbing regression (isolated to Api project)
+RUN printf '<Project><PropertyGroup><EnableDefaultCompileItems>false</EnableDefaultCompileItems><EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems><EnableDefaultContentItems>false</EnableDefaultContentItems></PropertyGroup><ItemGroup>' > Api/Directory.Build.props \
+ && cd Api \
+ && find . -name "*.cs" | sed 's|^|<Compile Include="|;s|$|" />|' >> Directory.Build.props \
+ && find . -name "*.resx" | sed 's|^|<EmbeddedResource Include="|;s|$|" />|' >> Directory.Build.props \
+ && find . \( -name "*.cshtml" -o -name "*.razor" -o -name "*.css" -o -name "*.js" -o -name "*.json" \) | sed 's|^|<Content Include="|;s|$|" />|' >> Directory.Build.props \
+ && printf '</ItemGroup></Project>' >> Directory.Build.props
+
+RUN dotnet build "Api/Api.csproj" -c Release -o /app/build
 
 # Publish
 FROM build AS publish
-RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Api/Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Stage 3: Final Runtime Image
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
+ENV DOTNET_ROLL_FORWARD=LatestMajor
 
-# Create a non-root user for security (optional but recommended)
-# RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-# USER appuser
+# Create a non-root user for security
+RUN useradd -u 5678 -m appuser && chown -R appuser /app
+USER appuser
 
 COPY --from=publish /app/publish .
 # Copy React build to wwwroot

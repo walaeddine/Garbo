@@ -17,8 +17,6 @@
 Thumbs.db
 
 # Docker
-Dockerfile*
-docker-compose*
 .dockerignore
 
 # Build output

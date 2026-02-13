@@ -5,42 +5,6 @@
 
 # dotenv files
 .env
-.env.*
-!.env.example
-
-# Build results
-[Dd]ebug/
-[Rr]elease/
-[Bb]in/
-[Oo]bj/
-# Explicitly ignore Windows-style backslash folders (critical for Linux builds)
-"*[\\]bin/"
-"*[\\]obj/"
-"*[\\]bin[\\]*"
-"*[\\]obj[\\]*"
-"**\\bin\\**"
-"**\\obj\\**"
-"bin\\"
-"obj\\"
-"bin\\Debug"
-"bin\\Release"
-"obj\\Debug"
-"obj\\Release"
-"*\\bin\\*"
-"*\\obj\\*"
-"bin\\Debug"
-"obj\\Debug"
-
-# Frontend
-node_modules/
-dist/
-build/
-.eslintcache
-npm-debug.log*
-
-# Application Data (Uploads)
-src/backend/Api/wwwroot/uploads/*
-!src/backend/Api/wwwroot/uploads/.gitkeep
 
 # User-specific files
 *.rsuser
@@ -68,6 +32,10 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
+# Literal backslash ignores (Windows-style artifacts on Mac)
+"**[Bb]in\\"
+"**[Oo]bj\\"
+"**[Dd]ebug\\"
 [Ll]og/
 [Ll]ogs/
 

@@ -66,145 +66,24 @@ namespace Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7a2c7e41-6782-4f91-8d2a-190f03225c5a"),
-                            CreatedAt = new DateTime(2026, 2, 1, 18, 17, 14, 608, DateTimeKind.Utc).AddTicks(2350),
-                            Description = "Science-backed skincare designed to enhance your natural glow with vegan formulas.",
+                            Id = new Guid("a0c1d2e3-f4a5-4b6c-8d7e-9f0a1b2c3d4e"),
+                            CreatedAt = new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "A sleek, premium brand for high-end hair care, featuring elegant formulas for the modern gentleman.",
                             IsDeleted = false,
-                            LogoUrl = "https://placehold.co/400x400?text=Lumina+Aesthetics",
-                            Name = "Lumina Aesthetics",
-                            Slug = "lumina-aesthetics",
+                            LogoUrl = "/uploads/brands/luxe-mane.png",
+                            Name = "Luxe Mane",
+                            Slug = "luxe-mane",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("3d9f1028-e522-4a7b-bba1-ec6829731d14"),
-                            CreatedAt = new DateTime(2026, 2, 1, 18, 17, 14, 608, DateTimeKind.Utc).AddTicks(2920),
-                            Description = "High-performance athletic apparel specializing in moisture-wicking fabrics for runners.",
+                            Id = new Guid("b1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f"),
+                            CreatedAt = new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Rugged, masculine grooming essentials designed for the perfectly maintained beard.",
                             IsDeleted = false,
-                            LogoUrl = "https://placehold.co/400x400?text=Velocity+Gear",
-                            Name = "Velocity Gear",
-                            Slug = "velocity-gear",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("c94b3a12-88ef-4c8d-905e-f7893122709e"),
-                            CreatedAt = new DateTime(2026, 2, 1, 18, 17, 14, 608, DateTimeKind.Utc).AddTicks(2930),
-                            Description = "Artisanal coffee roastery sourcing organic, fair-trade beans from around the globe.",
-                            IsDeleted = false,
-                            LogoUrl = "https://placehold.co/400x400?text=Hearth+%26+Bean",
-                            Name = "Hearth & Bean",
-                            Slug = "hearth-bean",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab01"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Modern, minimalist water brand committed to purity and sustainable hydration.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/aquavital.png",
-                            Name = "AquaVital",
-                            Slug = "aquavital",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab02"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Futuristic electronics brand pushing the boundaries of technical innovation.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/zenith_electronics.png",
-                            Name = "Zenith Electronics",
-                            Slug = "zenith-electronics",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab03"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Organic, earthy food products sourced from natural and wholesome origins.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/terra_foods.png",
-                            Name = "Terra Foods",
-                            Slug = "terra-foods",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab04"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Elegant and chic fashion brand featuring contemporary luxury apparel.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/nova_fashion.png",
-                            Name = "Nova Fashion",
-                            Slug = "nova-fashion",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab05"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Dynamic fitness brand providing energizing and powerful athletic gear.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/pulse_fitness.png",
-                            Name = "Pulse Fitness",
-                            Slug = "pulse-fitness",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab06"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Cozy and modern home goods designed for contemporary living spaces.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/echo_home.png",
-                            Name = "Echo Home",
-                            Slug = "echo-home",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab07"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Sharp and technical eyewear brand focused on precision and modern style.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/prism_optics.png",
-                            Name = "Prism Optics",
-                            Slug = "prism-optics",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab08"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Calming health and wellness products inspired by natural zen and tranquility.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/sage_wellness.png",
-                            Name = "Sage Wellness",
-                            Slug = "sage-wellness",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab09"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "High-tech electric vehicle brand leading the way in sustainable innovation.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/volt_motors.png",
-                            Name = "Volt Motors",
-                            Slug = "volt-motors",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab10"),
-                            CreatedAt = new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc),
-                            Description = "Sophisticated software company delivering reliable and advanced technological solutions.",
-                            IsDeleted = false,
-                            LogoUrl = "/images/brands/orion_tech.png",
-                            Name = "Orion Tech",
-                            Slug = "orion-tech",
+                            LogoUrl = "/uploads/brands/iron-beard.png",
+                            Name = "Iron Beard",
+                            Slug = "iron-beard",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -253,32 +132,35 @@ namespace Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5c60f693-befd-460e-8d59-39322f43732c"),
-                            CreatedAt = new DateTime(2026, 2, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Products for maintaining and styling hair.",
+                            Id = new Guid("c2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a"),
+                            CreatedAt = new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "High-quality professional hair styling tools and equipment.",
                             IsDeleted = false,
-                            Name = "Hair Care",
-                            Slug = "hair-care",
+                            Name = "Hair Stylers",
+                            PictureUrl = "/uploads/categories/hair-stylers.png",
+                            Slug = "hair-stylers",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
-                            CreatedAt = new DateTime(2026, 2, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Products for skin health and beauty.",
+                            Id = new Guid("d3f4a5b6-c7d8-4e9f-0a1b-2c3d4e5f6a7b"),
+                            CreatedAt = new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Premium nourishing oils and balms for the absolute best beard care.",
                             IsDeleted = false,
-                            Name = "Skin Care",
-                            Slug = "skin-care",
+                            Name = "Beard Oils",
+                            PictureUrl = "/uploads/categories/beard-oils.png",
+                            Slug = "beard-oils",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            Id = new Guid("1d9e902b-270c-4389-b8a1-d4567890abcd"),
-                            CreatedAt = new DateTime(2026, 2, 4, 12, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Products for beard grooming and maintenance.",
+                            Id = new Guid("e4a5b6c7-d8e9-4f0a-1b2c-3d4e5f6a7b8c"),
+                            CreatedAt = new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Essential classic accessories and tools for traditional grooming rituals.",
                             IsDeleted = false,
-                            Name = "Beard Care",
-                            Slug = "beard-care",
+                            Name = "Barber Accessories",
+                            PictureUrl = "/uploads/categories/barber-accessories.png",
+                            Slug = "barber-accessories",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });

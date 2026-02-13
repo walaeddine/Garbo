@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Fix for .NET 10 SDK globbing regression in containers -->
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+</Project>

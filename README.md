@@ -1,12 +1,12 @@
 # Garbo - Modern User & Brand Management System
 
-Garbo is a unified platform for managing users, brands, and categories, featuring a modern React frontend and a robust .NET 8 API.
+Garbo is a unified platform for managing users, brands, and categories, featuring a modern React frontend and a robust .NET 10 API.
 
 ## 🚀 Key Features
 
 -   **Authentication**: Secure JWT-based auth with HttpOnly cookies, refresh tokens, and graceful session management.
 -   **User Management**: Registration, Login, Forgot Password (OTP), Email Verification, and specific "Reactivate Account" flow for soft-deleted users.
--   **Brand & Category Management**: Full CRUD operations with search, pagination, and image management.
+-   **Brand & Category Management**: Full CRUD operations with search, pagination, and image management. Redone with a premium barber-themed catalog.
 -   **Docker Ready**: Single-container deployment for both Frontend and Backend, optimized with multi-stage builds.
 -   **PostgreSQL**: High-performance, open-source database backend.
 
@@ -15,7 +15,7 @@ Garbo is a unified platform for managing users, brands, and categories, featurin
 ## 🛠️ Technology Stack
 
 -   **Frontend**: React 18, Vite, TailwindCSS, Shadcn UI, React Query, Axios.
--   **Backend**: .NET 8 Web API, Entity Framework Core, PostgreSQL.
+-   **Backend**: .NET 10 Web API, Entity Framework Core, PostgreSQL.
 -   **Email**: FluentEmail with SMTP (Brevo/SendGrid).
 -   **Containerization**: Docker & Docker Compose.
 

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class DatabaseCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -227,19 +227,8 @@ namespace Api.Migrations
                 columns: new[] { "Id", "CreatedAt", "DeletedAt", "Description", "IsDeleted", "LogoUrl", "Name", "Slug", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("3d9f1028-e522-4a7b-bba1-ec6829731d14"), new DateTime(2026, 2, 1, 18, 17, 14, 608, DateTimeKind.Utc).AddTicks(2920), null, "High-performance athletic apparel specializing in moisture-wicking fabrics for runners.", false, "https://placehold.co/400x400?text=Velocity+Gear", "Velocity Gear", "velocity-gear", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("7a2c7e41-6782-4f91-8d2a-190f03225c5a"), new DateTime(2026, 2, 1, 18, 17, 14, 608, DateTimeKind.Utc).AddTicks(2350), null, "Science-backed skincare designed to enhance your natural glow with vegan formulas.", false, "https://placehold.co/400x400?text=Lumina+Aesthetics", "Lumina Aesthetics", "lumina-aesthetics", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("c94b3a12-88ef-4c8d-905e-f7893122709e"), new DateTime(2026, 2, 1, 18, 17, 14, 608, DateTimeKind.Utc).AddTicks(2930), null, "Artisanal coffee roastery sourcing organic, fair-trade beans from around the globe.", false, "https://placehold.co/400x400?text=Hearth+%26+Bean", "Hearth & Bean", "hearth-bean", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab01"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Modern, minimalist water brand committed to purity and sustainable hydration.", false, "/images/brands/aquavital.png", "AquaVital", "aquavital", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab02"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Futuristic electronics brand pushing the boundaries of technical innovation.", false, "/images/brands/zenith_electronics.png", "Zenith Electronics", "zenith-electronics", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab03"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Organic, earthy food products sourced from natural and wholesome origins.", false, "/images/brands/terra_foods.png", "Terra Foods", "terra-foods", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab04"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Elegant and chic fashion brand featuring contemporary luxury apparel.", false, "/images/brands/nova_fashion.png", "Nova Fashion", "nova-fashion", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab05"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Dynamic fitness brand providing energizing and powerful athletic gear.", false, "/images/brands/pulse_fitness.png", "Pulse Fitness", "pulse-fitness", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab06"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Cozy and modern home goods designed for contemporary living spaces.", false, "/images/brands/echo_home.png", "Echo Home", "echo-home", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab07"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Sharp and technical eyewear brand focused on precision and modern style.", false, "/images/brands/prism_optics.png", "Prism Optics", "prism-optics", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab08"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Calming health and wellness products inspired by natural zen and tranquility.", false, "/images/brands/sage_wellness.png", "Sage Wellness", "sage-wellness", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab09"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "High-tech electric vehicle brand leading the way in sustainable innovation.", false, "/images/brands/volt_motors.png", "Volt Motors", "volt-motors", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1b7c2d3-a4e5-4f67-8901-23456789ab10"), new DateTime(2026, 2, 3, 22, 1, 0, 0, DateTimeKind.Utc), null, "Sophisticated software company delivering reliable and advanced technological solutions.", false, "/images/brands/orion_tech.png", "Orion Tech", "orion-tech", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { new Guid("a0c1d2e3-f4a5-4b6c-8d7e-9f0a1b2c3d4e"), new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc), null, "A sleek, premium brand for high-end hair care, featuring elegant formulas for the modern gentleman.", false, "/uploads/brands/luxe-mane.png", "Luxe Mane", "luxe-mane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("b1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f"), new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc), null, "Rugged, masculine grooming essentials designed for the perfectly maintained beard.", false, "/uploads/brands/iron-beard.png", "Iron Beard", "iron-beard", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -247,9 +236,9 @@ namespace Api.Migrations
                 columns: new[] { "CategoryId", "CreatedAt", "DeletedAt", "Description", "IsDeleted", "Name", "PictureUrl", "Slug", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("1d9e902b-270c-4389-b8a1-d4567890abcd"), new DateTime(2026, 2, 4, 12, 0, 0, 0, DateTimeKind.Utc), null, "Products for beard grooming and maintenance.", false, "Beard Care", null, "beard-care", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("5c60f693-befd-460e-8d59-39322f43732c"), new DateTime(2026, 2, 4, 12, 0, 0, 0, DateTimeKind.Utc), null, "Products for maintaining and styling hair.", false, "Hair Care", null, "hair-care", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("d28888e9-2ba9-473a-a40f-e38cb54f9b35"), new DateTime(2026, 2, 4, 12, 0, 0, 0, DateTimeKind.Utc), null, "Products for skin health and beauty.", false, "Skin Care", null, "skin-care", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { new Guid("c2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a"), new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc), null, "High-quality professional hair styling tools and equipment.", false, "Hair Stylers", "/uploads/categories/hair-stylers.png", "hair-stylers", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("d3f4a5b6-c7d8-4e9f-0a1b-2c3d4e5f6a7b"), new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc), null, "Premium nourishing oils and balms for the absolute best beard care.", false, "Beard Oils", "/uploads/categories/beard-oils.png", "beard-oils", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("e4a5b6c7-d8e9-4f0a-1b2c-3d4e5f6a7b8c"), new DateTime(2026, 2, 7, 18, 0, 0, 0, DateTimeKind.Utc), null, "Essential classic accessories and tools for traditional grooming rituals.", false, "Barber Accessories", "/uploads/categories/barber-accessories.png", "barber-accessories", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.CreateIndex(

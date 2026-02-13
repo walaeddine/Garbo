@@ -26,11 +26,22 @@ public static class ServiceExtensions
         {
             options.AddPolicy("CorsPolicy", builder =>
             {
-                builder.WithOrigins(corsConfig.AllowedOrigins!)
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials()
-                       .WithExposedHeaders("X-Pagination");
+                var origins = corsConfig.AllowedOrigins?.Split(",", StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
+                if (origins.Length > 0)
+                {
+                    builder.WithOrigins(origins)
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials()
+                           .WithExposedHeaders("X-Pagination");
+                }
+                else
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .WithExposedHeaders("X-Pagination");
+                }
             });
         });
     }

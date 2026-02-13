@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:alpine
+    image: postgres:17-alpine
     container_name: garbo_db
     environment:
       - POSTGRES_USER=postgres
@@ -9,7 +9,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -26,12 +26,14 @@ services:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
       - AllowedHosts=${ALLOWED_HOSTS}
+      - CorsSettings__AllowedOrigins=${ALLOWED_ORIGINS}
       - ConnectionStrings__sqlConnection=${ConnectionStrings__sqlConnection}
-      - JwtSettings__validIssuer=${JWT_ISSUER}
-      - JwtSettings__validAudience=${JWT_AUDIENCE}
-      - JwtSettings__expires=${JWT_EXPIRES}
-      - JwtSettings__secret=${JWT_SECRET}
+      - JwtSettings__ValidIssuer=${JWT_ISSUER}
+      - JwtSettings__ValidAudience=${JWT_AUDIENCE}
+      - JwtSettings__Expires=${JWT_EXPIRES}
+      - JwtSettings__Secret=${JWT_SECRET}
       - EmailSettings__From=${EMAIL_FROM}
       - EmailSettings__SmtpServer=${SMTP_SERVER}
       - EmailSettings__Port=${EMAIL_PORT}
@@ -39,6 +41,12 @@ services:
       - EmailSettings__Password=${EMAIL_PASSWORD}
       - AdminSettings__Email=${ADMIN_EMAIL}
       - AdminSettings__Password=${ADMIN_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     depends_on:
       db:
         condition: service_healthy

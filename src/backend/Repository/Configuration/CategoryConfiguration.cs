@@ -13,26 +13,29 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.HasData(
             new Category
             {
-                Id = Guid.Parse("5c60f693-befd-460e-8d59-39322f43732c"),
-                Name = "Hair Care",
-                Description = "Products for maintaining and styling hair.",
-                CreatedAt = new DateTime(2026, 2, 4, 12, 0, 0, DateTimeKind.Utc),
+                Id = Guid.Parse("c2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a"),
+                Name = "Hair Stylers",
+                Description = "High-quality professional hair styling tools and equipment.",
+                PictureUrl = "/uploads/categories/hair-stylers.png",
+                CreatedAt = new DateTime(2026, 2, 7, 18, 0, 0, DateTimeKind.Utc),
                 UpdatedAt = DateTime.MinValue
             },
             new Category
             {
-                Id = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
-                Name = "Skin Care",
-                Description = "Products for skin health and beauty.",
-                CreatedAt = new DateTime(2026, 2, 4, 12, 0, 0, DateTimeKind.Utc),
+                Id = Guid.Parse("d3f4a5b6-c7d8-4e9f-0a1b-2c3d4e5f6a7b"),
+                Name = "Beard Oils",
+                Description = "Premium nourishing oils and balms for the absolute best beard care.",
+                PictureUrl = "/uploads/categories/beard-oils.png",
+                CreatedAt = new DateTime(2026, 2, 7, 18, 0, 0, DateTimeKind.Utc),
                 UpdatedAt = DateTime.MinValue
             },
             new Category
             {
-                Id = Guid.Parse("1d9e902b-270c-4389-b8a1-d4567890abcd"),
-                Name = "Beard Care",
-                Description = "Products for beard grooming and maintenance.",
-                CreatedAt = new DateTime(2026, 2, 4, 12, 0, 0, DateTimeKind.Utc),
+                Id = Guid.Parse("e4a5b6c7-d8e9-4f0a-1b2c-3d4e5f6a7b8c"),
+                Name = "Barber Accessories",
+                Description = "Essential classic accessories and tools for traditional grooming rituals.",
+                PictureUrl = "/uploads/categories/barber-accessories.png",
+                CreatedAt = new DateTime(2026, 2, 7, 18, 0, 0, DateTimeKind.Utc),
                 UpdatedAt = DateTime.MinValue
             }
         );
